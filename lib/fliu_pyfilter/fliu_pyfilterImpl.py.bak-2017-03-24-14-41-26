@@ -26,8 +26,8 @@ This sample module contains one small method - filter_contigs.
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = "https://fxe@github.com/Fxe/kbase-python-example.git"
-    GIT_COMMIT_HASH = "ccbca18083abbacbd3d6abbd306a6e64e8177c9b"
+    GIT_URL = ""
+    GIT_COMMIT_HASH = ""
 
     #BEGIN_CLASS_HEADER
     # Class variables and functions can be defined in this block
@@ -172,37 +172,6 @@ This sample module contains one small method - filter_contigs.
         # At some point might do deeper type checking...
         if not isinstance(output, dict):
             raise ValueError('Method filter_contigs return value ' +
-                             'output is not type dict as required.')
-        # return the results
-        return [output]
-
-    def filter_contigs_changed(self, ctx, params):
-        # ctx is the context object
-        # return variables are: output
-        #BEGIN filter_contigs_changed
-        #END filter_contigs_changed
-
-        # At some point might do deeper type checking...
-        
-        assembly_input_ref = params['assembly_input_ref']
-
-
-        reportObj = {
-            'objects_created': [{'ref': assembly_input_ref, 'description': 'Filtered contigs description'}], 
-            'text_message': 'Filtered Assembly to some contigs out of all'
-        } 
-        report = KBaseReport(self.callback_url)
-        report_info = report.create({'report': reportObj, 'workspace_name': params['workspace_name']})
-
-        output = {'report_name': report_info['name'],
-                  'report_ref': report_info['ref'],
-                  'assembly_output': assembly_input_ref,
-                  'n_initial_contigs': -1,
-                  'n_contigs_removed': -2,
-                  'n_contigs_remaining': -3
-                  }
-        if not isinstance(output, dict):
-            raise ValueError('Method filter_contigs_changed return value ' +
                              'output is not type dict as required.')
         # return the results
         return [output]

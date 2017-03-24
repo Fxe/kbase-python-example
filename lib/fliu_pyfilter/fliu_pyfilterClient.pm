@@ -217,6 +217,112 @@ Apps that run in the Narrative, your function should have the
     }
 }
  
+
+
+=head2 filter_contigs_changed
+
+  $output = $obj->filter_contigs_changed($params)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$params is a fliu_pyfilter.FilterContigsParams
+$output is a fliu_pyfilter.FilterContigsResults
+FilterContigsParams is a reference to a hash where the following keys are defined:
+	assembly_input_ref has a value which is a fliu_pyfilter.assembly_ref
+	workspace_name has a value which is a string
+	min_length has a value which is an int
+assembly_ref is a string
+FilterContigsResults is a reference to a hash where the following keys are defined:
+	report_name has a value which is a string
+	report_ref has a value which is a string
+	assembly_output has a value which is a fliu_pyfilter.assembly_ref
+	n_initial_contigs has a value which is an int
+	n_contigs_removed has a value which is an int
+	n_contigs_remaining has a value which is an int
+
+</pre>
+
+=end html
+
+=begin text
+
+$params is a fliu_pyfilter.FilterContigsParams
+$output is a fliu_pyfilter.FilterContigsResults
+FilterContigsParams is a reference to a hash where the following keys are defined:
+	assembly_input_ref has a value which is a fliu_pyfilter.assembly_ref
+	workspace_name has a value which is a string
+	min_length has a value which is an int
+assembly_ref is a string
+FilterContigsResults is a reference to a hash where the following keys are defined:
+	report_name has a value which is a string
+	report_ref has a value which is a string
+	assembly_output has a value which is a fliu_pyfilter.assembly_ref
+	n_initial_contigs has a value which is an int
+	n_contigs_removed has a value which is an int
+	n_contigs_remaining has a value which is an int
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub filter_contigs_changed
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 1)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function filter_contigs_changed (received $n, expecting 1)");
+    }
+    {
+	my($params) = @args;
+
+	my @_bad_arguments;
+        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
+        if (@_bad_arguments) {
+	    my $msg = "Invalid arguments passed to filter_contigs_changed:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+								   method_name => 'filter_contigs_changed');
+	}
+    }
+
+    my $url = $self->{url};
+    my $result = $self->{client}->call($url, $self->{headers}, {
+	    method => "fliu_pyfilter.filter_contigs_changed",
+	    params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'filter_contigs_changed',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method filter_contigs_changed",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'filter_contigs_changed',
+				       );
+    }
+}
+ 
   
 sub status
 {
@@ -260,16 +366,16 @@ sub version {
             Bio::KBase::Exceptions::JSONRPC->throw(
                 error => $result->error_message,
                 code => $result->content->{code},
-                method_name => 'filter_contigs',
+                method_name => 'filter_contigs_changed',
             );
         } else {
             return wantarray ? @{$result->result} : $result->result->[0];
         }
     } else {
         Bio::KBase::Exceptions::HTTP->throw(
-            error => "Error invoking method filter_contigs",
+            error => "Error invoking method filter_contigs_changed",
             status_line => $self->{client}->status_line,
-            method_name => 'filter_contigs',
+            method_name => 'filter_contigs_changed',
         );
     }
 }
