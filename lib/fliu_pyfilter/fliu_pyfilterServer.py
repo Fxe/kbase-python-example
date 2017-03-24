@@ -337,6 +337,10 @@ class Application(object):
                              name='fliu_pyfilter.filter_contigs',
                              types=[dict])
         self.method_authentication['fliu_pyfilter.filter_contigs'] = 'required'  # noqa
+        self.rpc_service.add(impl_fliu_pyfilter.filter_contigs_changed,
+                             name='fliu_pyfilter.filter_contigs_changed',
+                             types=[dict])
+        self.method_authentication['fliu_pyfilter.filter_contigs_changed'] = 'required'  # noqa
         self.rpc_service.add(impl_fliu_pyfilter.status,
                              name='fliu_pyfilter.status',
                              types=[dict])
