@@ -170,8 +170,8 @@ This sample module contains one small method - filter_contigs.
         #END filter_contigs
 
         # At some point might do deeper type checking...
-        if not isinstance(output, dict):
-            raise ValueError('Method filter_contigs return value output is not type dict as required.')
+        #if not isinstance(output, dict):
+        #    raise ValueError('Method filter_contigs return value output is not type dict as required.')
         # return the results
         return [output]
 
