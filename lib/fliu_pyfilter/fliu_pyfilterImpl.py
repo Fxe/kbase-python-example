@@ -161,9 +161,9 @@ This sample module contains one small method - filter_contigs.
         output = {'report_name': report_info['name'],
                   'report_ref': report_info['ref'],
                   'assembly_output': new_assembly,
-                  'n_initial_contigs': n_total,
-                  'n_contigs_removed': n_total - n_remaining,
-                  'n_contigs_remaining': n_remaining
+                  'n_initial_contigs': -3,
+                  'n_contigs_removed': -2,
+                  'n_contigs_remaining': -1
                   }
         print('returning:' + pformat(output))
                 
