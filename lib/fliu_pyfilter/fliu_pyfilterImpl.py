@@ -88,13 +88,8 @@ This sample module contains one small method - filter_contigs.
         # return variables are: output
         #BEGIN filter_contigs_changed
         #END filter_contigs_changed
-        output = {}
-        # At some point might do deeper type checking...
-        if not isinstance(output, dict):
-            raise ValueError('Method filter_contigs_changed return value ' +
-                             'output is not type dict as required.')
-        # return the results
-        return [output]
+        return filter(self.callback_url, self.shared_folder, ctx, params)
+
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",
