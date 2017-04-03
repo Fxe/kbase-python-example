@@ -27,7 +27,7 @@ This sample module contains one small method - filter_contigs.
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/Tianhao-Gu/kbase-python-example.git"
-    GIT_COMMIT_HASH = "b2d2ebeb3f01c91def32a5cbc90ccbaaedc313ba"
+    GIT_COMMIT_HASH = "3e665e3560cfef5863f6995620a975d6082f03d0"
 
     #BEGIN_CLASS_HEADER
     # Class variables and functions can be defined in this block
@@ -40,7 +40,6 @@ This sample module contains one small method - filter_contigs.
         
         # Any configuration parameters that are important should be parsed and
         # saved in the constructor.
-        print 'ttttttt'
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.shared_folder = config['scratch']
 
@@ -257,7 +256,9 @@ This sample module contains one small method - filter_contigs.
         """
         # ctx is the context object
         # return variables are: output
-        #BEGIN filter_contigs_changed_tian
+        #BEGIN filter_contigs
+
+        # Print statements to stdout/stderr are captured and available as the App log
         print('Starting Filter Contigs function. Params=')
         pprint(params)
 
@@ -336,15 +337,13 @@ This sample module contains one small method - filter_contigs.
                   }
         print('returning:' + pformat(output))
 
-        # output = {'test': 'atest'}
-        #END filter_contigs_changed_tian
-
         # At some point might do deeper type checking...
         if not isinstance(output, dict):
             raise ValueError('Method filter_contigs_changed_tian return value ' +
                              'output is not type dict as required.')
         # return the results
         return [output]
+
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",
