@@ -60,4 +60,7 @@ module fliu_pyfilter {
         returns (FilterContigsResults output) authentication required;
     funcdef filter_contigs_changed(FilterContigsParams params)
         returns (FilterContigsResults output) authentication required;
+
+    funcdef filter_contigs_changed_tian(FilterContigsParams params)
+        returns (FilterContigsResults output) authentication required;
 };
