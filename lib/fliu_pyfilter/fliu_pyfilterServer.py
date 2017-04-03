@@ -20,7 +20,7 @@ from fliu_pyfilter.authclient import KBaseAuth as _KBaseAuth
 
 DEPLOY = 'KB_DEPLOYMENT_CONFIG'
 SERVICE = 'KB_SERVICE_NAME'
-AUTH = 'auth-server-url'
+AUTH = 'auth-service-url'
 
 # Note that the error fields do not match the 2.0 JSONRPC spec
 
@@ -341,6 +341,10 @@ class Application(object):
                              name='fliu_pyfilter.filter_contigs_changed',
                              types=[dict])
         self.method_authentication['fliu_pyfilter.filter_contigs_changed'] = 'required'  # noqa
+        self.rpc_service.add(impl_fliu_pyfilter.filter_contigs_changed_tian,
+                             name='fliu_pyfilter.filter_contigs_changed_tian',
+                             types=[dict])
+        self.method_authentication['fliu_pyfilter.filter_contigs_changed_tian'] = 'required'  # noqa
         self.rpc_service.add(impl_fliu_pyfilter.status,
                              name='fliu_pyfilter.status',
                              types=[dict])
