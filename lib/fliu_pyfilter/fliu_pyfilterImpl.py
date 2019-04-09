@@ -2,6 +2,7 @@
 #BEGIN_HEADER
 import logging
 import os
+import urllib.request
 
 from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.WorkspaceClient import Workspace
@@ -87,9 +88,15 @@ class fliu_pyfilter:
 # 'sbml_url': 'http://bigg.ucsd.edu/static/models/e_coli_core.xml', 
 # 'automatically_integrate': 1, 'workspace_name': 'filipeliu:narrative_1554172974237', 
 # 'remove_boundary': 1}
+        def valid_string_arg(key, params):
+            return key in params and not params[key] == None and len(params[key].strip()) > 0
 
         dfu = DataFileUtil(self.callback_url)
-        if 'input_staging_file_path' in params and not params['input_staging_file_path'] == None and len(params['input_staging_file_path'].strip()) > 0:
+
+        if valid_string_arg('sbml_url', params):
+            urllib.request.urlretrieve(params['sbml_url'], '/kb/module/data/sbml.xml')
+            
+        elif valid_string_arg('input_staging_file_path', params):
             logging.info('pulling from staging: %s' % params['input_staging_file_path'])
             retval = dfu.download_staging_file(
                 {
@@ -98,7 +105,8 @@ class fliu_pyfilter:
             )
 
             logging.info('download_staging_file: %s' % retval)
-            print(retval)
+        else:
+            logging.info('invalid file arguments: %s' % params)
 
         report = KBaseReport(self.callback_url)
         report_info = report.create({'report': {'objects_created':[],
