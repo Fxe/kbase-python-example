@@ -5,6 +5,7 @@ import os
 
 from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.WorkspaceClient import Workspace
+from installed_clients.DataFileUtilClient import DataFileUtil
 #END_HEADER
 
 
@@ -82,9 +83,26 @@ class fliu_pyfilter:
         #BEGIN sbml_importer
         print(params)
 
+#{'biomass': [], 'model_name': 'test', 
+# 'sbml_url': 'http://bigg.ucsd.edu/static/models/e_coli_core.xml', 
+# 'automatically_integrate': 1, 'workspace_name': 'filipeliu:narrative_1554172974237', 
+# 'remove_boundary': 1}
+
+        dfu = DataFileUtil(self.callback_url)
+        if 'input_staging_file_path' in params and not params['input_staging_file_path'] == None and len(params['input_staging_file_path'].strip()) > 0:
+            logging.info('pulling from staging: %s' % params['input_staging_file_path'])
+            retval = dfu.download_staging_file(
+                {
+                    'staging_file_subdir_path': params['input_staging_file_path']
+                }
+            )
+
+            logging.info('download_staging_file: %s' % retval)
+            print(retval)
+
         report = KBaseReport(self.callback_url)
         report_info = report.create({'report': {'objects_created':[],
-                                                'text_message': params['parameter_1']},
+                                                'text_message': params['sbml_url']},
                                                 'workspace_name': params['workspace_name']})
         output = {
             'report_name': report_info['name'],
