@@ -342,6 +342,18 @@ class Application(object):
                              name='fliu_pyfilter.run_fliu_pyfilter',
                              types=[dict])
         self.method_authentication['fliu_pyfilter.run_fliu_pyfilter'] = 'required'  # noqa
+        self.rpc_service.add(impl_fliu_pyfilter.sbml_importer,
+                             name='fliu_pyfilter.sbml_importer',
+                             types=[dict])
+        self.method_authentication['fliu_pyfilter.sbml_importer'] = 'required'  # noqa
+        self.rpc_service.add(impl_fliu_pyfilter.integrate_model,
+                             name='fliu_pyfilter.integrate_model',
+                             types=[dict])
+        self.method_authentication['fliu_pyfilter.integrate_model'] = 'required'  # noqa
+        self.rpc_service.add(impl_fliu_pyfilter.auto_propagate_genome,
+                             name='fliu_pyfilter.auto_propagate_genome',
+                             types=[dict])
+        self.method_authentication['fliu_pyfilter.auto_propagate_genome'] = 'required'  # noqa
         self.rpc_service.add(impl_fliu_pyfilter.status,
                              name='fliu_pyfilter.status',
                              types=[dict])

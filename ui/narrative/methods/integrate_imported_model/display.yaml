@@ -1,0 +1,82 @@
+name     : (TEST) Integrate Imported Model into KBase Namespace
+subtitle : none
+tooltip  : Integrates imported models from original imported namespace to the KBase namespace to aid in comparison, gapfilling, and community modeling
+
+screenshots : []
+icon: null
+
+method-suggestions :
+    related :
+        []
+    next :
+        []
+
+parameters :
+    model_name :
+        ui-name : Model ID
+        short-hint : ID of imported model to be integrated
+        long-hint  : ID of imported model to be integrated
+    genome_id :
+        ui-name : Genome ID
+        short-hint : ID of genome to associate with the model
+        long-hint  : ID of genome to associate with the model
+    biomass_reactions :
+        ui-name : New biomass reactions
+        short-hint : Select additional model reactions that actually represent biomass reactions
+        long-hint  : Select additional model reactions that actually represent biomass reactions
+    model_compartment_id :
+        ui-name : model_compartment_id
+        short-hint : model_compartment_id_hint
+        long-hint  : model_compartment_id_lhint
+    kbase_compartment_id :
+        ui-name : kbase_compartment_id
+        short-hint : kbase_compartment_id_hint
+        long-hint  : kbase_compartment_id_lhint
+    output_media_name :
+        ui-name : Export Default media
+        short-hint : Extracts SBML Model Default media into media object
+        long-hint  : Extracts SBML Model Default media into media object
+    translate_database :
+        ui-name : Translate Metabolite and Reaction identifiers
+        short-hint : Rename metabolites and reactions to another database identifiers
+        long-hint  : Rename metabolites and reactions to another database identifiers
+    template_id :
+        ui-name : Template ID
+        short-hint : Select the template model to associate, which impacts candidate reactions for gapfilling
+        long-hint  : Select the template model to associate, which impacts candidate reactions for gapfilling
+    remove_boundary :
+        ui-name : Removes Boundary Metabolites
+        short-hint : Automatically excludes boundary metabolites
+        long-hint  : Automatically excludes boundary metabolites
+    fill_metadata :
+        ui-name : Rewrite Metabolite Metadata
+        short-hint : Automatically rewrite Metabolite metadata from integration (Formulas, Chemical Structures, Names)
+        long-hint  : Automatically rewrite Metabolite metadata from integration (Formulas, Chemical Structures, Names)
+    create_extracellular :
+        ui-name : Create extracellular compartment
+        short-hint : Automatically creates an extracellular compartment with transporters added for all metabolites with associated drain reactions
+        long-hint  : Automatically creates an extracellular compartment with transporters added for all metabolites with associated drain reactions
+    gene_mappings :
+        ui-name : Gene mappings
+        short-hint : Provide tab-delimited translation table from gene IDs in the model to gene IDs in the input genome
+        long-hint  : Provide tab-delimited translation table from gene IDs in the model to gene IDs in the input genome
+    compound_mappings :
+        ui-name : Compound mappings
+        short-hint : Provide tab-delimited translation table from compound IDs in the model to KBase compound IDs (e.g. cpd00001)
+        long-hint  : Provide tab-delimited translation table from compound IDs in the model to KBase compound IDs (e.g. cpd00001)
+    output_model_name :
+        ui-name : Output ID
+        short-hint : Name to use for integrated model
+        long-hint  : Name to use for integrated model
+        
+parameter-groups:
+    compartment_translation :
+        ui-name : Compartment mappings
+        short-hint : Use this control to explicitly specify how model compartments correspond to compartments in KBase
+        long-hint  : Use this control to explicitly specify how model compartments correspond to compartments in KBase
+        
+description : |
+    <p>Please see <a href="http://kbase.us/data-upload-download-guide/fba-model/" target="_blank">http://kbase.us/data-upload-download-guide/fba-model/</a>
+    for more information about how to format your FBA model input file.</p>
+    
+technical-description : none
