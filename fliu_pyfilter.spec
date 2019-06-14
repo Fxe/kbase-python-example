@@ -17,10 +17,16 @@ module fliu_pyfilter {
 
     funcdef sbml_importer(mapping<string,UnspecifiedObject> params)
         returns (ReportWithModel output) authentication required;
+        
+    funcdef sbml_to_kbase(mapping<string,UnspecifiedObject> params)
+        returns (ReportWithModel output) authentication required;
 
     funcdef integrate_model(mapping<string,UnspecifiedObject> params)
         returns (ReportWithModel output) authentication required;
 
     funcdef auto_propagate_genome(mapping<string,UnspecifiedObject> params)
+        returns (ReportWithModel output) authentication required;
+        
+    funcdef escher_fbamodel(mapping<string,UnspecifiedObject> params)
         returns (ReportWithModel output) authentication required;
 };

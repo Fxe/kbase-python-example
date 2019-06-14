@@ -2,7 +2,7 @@ module-name:
     fliu_pyfilter
 
 module-description:
-    A KBase module
+    Testing Python Apps
 
 service-language:
     python

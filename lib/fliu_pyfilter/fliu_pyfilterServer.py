@@ -346,6 +346,10 @@ class Application(object):
                              name='fliu_pyfilter.sbml_importer',
                              types=[dict])
         self.method_authentication['fliu_pyfilter.sbml_importer'] = 'required'  # noqa
+        self.rpc_service.add(impl_fliu_pyfilter.sbml_to_kbase,
+                             name='fliu_pyfilter.sbml_to_kbase',
+                             types=[dict])
+        self.method_authentication['fliu_pyfilter.sbml_to_kbase'] = 'required'  # noqa
         self.rpc_service.add(impl_fliu_pyfilter.integrate_model,
                              name='fliu_pyfilter.integrate_model',
                              types=[dict])

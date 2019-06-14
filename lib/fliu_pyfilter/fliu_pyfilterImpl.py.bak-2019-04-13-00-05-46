@@ -8,7 +8,6 @@ import json
 import cobrakbase
 
 from kbase_python import fetch_models_from_url
-from kbase_python import convert_sbml_to_kbase
 
 from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.WorkspaceClient import Workspace
@@ -33,7 +32,7 @@ class fliu_pyfilter:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "git@github.com:Fxe/kbase_python_module.git"
-    GIT_COMMIT_HASH = "35f4ce6f9433c7ef16b28cdbe2d36e3abf8bad8d"
+    GIT_COMMIT_HASH = "19e6d97c3b8dcdb7a7aad27267d3e4b4fc24a32d"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -158,43 +157,6 @@ class fliu_pyfilter:
         # At some point might do deeper type checking...
         if not isinstance(output, dict):
             raise ValueError('Method sbml_importer return value ' +
-                             'output is not type dict as required.')
-        # return the results
-        return [output]
-
-    def sbml_to_kbase(self, ctx, params):
-        """
-        :param params: instance of mapping from String to unspecified object
-        :returns: instance of type "ReportWithModel" -> structure: parameter
-           "report_name" of String, parameter "report_ref" of String,
-           parameter "fbamodel_id" of String
-        """
-        # ctx is the context object
-        # return variables are: output
-        #BEGIN sbml_to_kbase
-        
-        kbase = cobrakbase.KBaseAPI(ctx['token'], config=self.config)
-        
-        config = {
-            'jar_path' : '/kb/module/data/bin',
-            'out_path' : '/kb/module/data/json',
-            'download_path' : '/kb/module/data/download',
-        }
-        
-        model_objects = convert_sbml_to_kbase(params['filename'], 
-                                              params['model_id'], 
-                                              params['auto_integrate'], 
-                                              params['remove_boundary'],
-                                              params['biomass_ids'],
-                                              config)
-        
-        output = model_objects[0]
-        
-        #END sbml_to_kbase
-
-        # At some point might do deeper type checking...
-        if not isinstance(output, dict):
-            raise ValueError('Method sbml_to_kbase return value ' +
                              'output is not type dict as required.')
         # return the results
         return [output]

@@ -1,4 +1,4 @@
-name     : Build Metabolic Model From Published Models
+name     : (TEST) Build Metabolic Model From Published Models
 subtitle : none
 tooltip  : Automatically translate closest published genome scale model from KBase catalog, using a mapping of similar proteins between their genomes.
 

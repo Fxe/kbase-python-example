@@ -185,7 +185,6 @@ class fliu_pyfilter:
                                               params['model_id'], 
                                               params['auto_integrate'], 
                                               params['remove_boundary'],
-                                              params['biomass_ids'],
                                               config)
         
         output = model_objects[0]
@@ -196,8 +195,10 @@ class fliu_pyfilter:
         if not isinstance(output, dict):
             raise ValueError('Method sbml_to_kbase return value ' +
                              'output is not type dict as required.')
+            
+        
         # return the results
-        return [output]
+        return output
 
     def integrate_model(self, ctx, params):
         """

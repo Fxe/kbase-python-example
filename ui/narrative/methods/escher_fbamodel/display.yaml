@@ -1,0 +1,31 @@
+name     : (TEST) Escher FBAModel
+subtitle : none
+tooltip  : Renders an Escher report
+
+screenshots : []
+icon: null
+
+method-suggestions :
+    related :
+        []
+    next :
+        []
+
+parameters :
+    model_id :
+        ui-name : Model ID
+        short-hint : FBAModel
+        long-hint  : FBAModel
+    fba_id :
+        ui-name : FBA
+        short-hint : FBA
+        long-hint  : FBA
+    genome_id :
+        ui-name : Genome ID
+        short-hint : Genome
+        long-hint  : Genome
+        
+description : |
+    <p>Escher</p>
+    
+technical-description : what is this?
