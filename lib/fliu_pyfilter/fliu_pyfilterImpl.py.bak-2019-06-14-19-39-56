@@ -33,7 +33,7 @@ class fliu_pyfilter:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "git@github.com:Fxe/kbase_python_module.git"
-    GIT_COMMIT_HASH = "feab2b18ac5c455291c9230cd26aff1db8764001"
+    GIT_COMMIT_HASH = "35f4ce6f9433c7ef16b28cdbe2d36e3abf8bad8d"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -252,25 +252,6 @@ class fliu_pyfilter:
         # At some point might do deeper type checking...
         if not isinstance(output, dict):
             raise ValueError('Method auto_propagate_genome return value ' +
-                             'output is not type dict as required.')
-        # return the results
-        return [output]
-
-    def escher_fbamodel(self, ctx, params):
-        """
-        :param params: instance of mapping from String to unspecified object
-        :returns: instance of type "ReportWithModel" -> structure: parameter
-           "report_name" of String, parameter "report_ref" of String,
-           parameter "fbamodel_id" of String
-        """
-        # ctx is the context object
-        # return variables are: output
-        #BEGIN escher_fbamodel
-        #END escher_fbamodel
-
-        # At some point might do deeper type checking...
-        if not isinstance(output, dict):
-            raise ValueError('Method escher_fbamodel return value ' +
                              'output is not type dict as required.')
         # return the results
         return [output]

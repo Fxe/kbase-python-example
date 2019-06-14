@@ -358,6 +358,10 @@ class Application(object):
                              name='fliu_pyfilter.auto_propagate_genome',
                              types=[dict])
         self.method_authentication['fliu_pyfilter.auto_propagate_genome'] = 'required'  # noqa
+        self.rpc_service.add(impl_fliu_pyfilter.escher_fbamodel,
+                             name='fliu_pyfilter.escher_fbamodel',
+                             types=[dict])
+        self.method_authentication['fliu_pyfilter.escher_fbamodel'] = 'required'  # noqa
         self.rpc_service.add(impl_fliu_pyfilter.status,
                              name='fliu_pyfilter.status',
                              types=[dict])
