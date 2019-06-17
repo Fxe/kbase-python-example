@@ -5,7 +5,6 @@ import os
 import urllib.request
 import json
 
-import wut
 import cobrakbase
 
 from kbase_python import fetch_models_from_url
@@ -34,7 +33,7 @@ class fliu_pyfilter:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "git@github.com:Fxe/kbase_python_module.git"
-    GIT_COMMIT_HASH = "dd5d745dd3a8e1b6c7601af9d1ac1722d3765466"
+    GIT_COMMIT_HASH = "feab2b18ac5c455291c9230cd26aff1db8764001"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -275,9 +274,7 @@ class fliu_pyfilter:
         print(params)
         
         output_directory = os.path.join(self.scratch, str(uuid.uuid4()))
-        print(output_directory)
-        
-        wut.mkdir_p(output_directory)
+        self._mkdir_p(output_directory)
         
         print(output_directory)
         
@@ -308,6 +305,21 @@ class fliu_pyfilter:
                              'output is not type dict as required.')
         # return the results
         return [output]
+    
+    def _mkdir_p(self, path):
+        """
+        _mkdir_p: make directory for given path
+        """
+        if not path:
+            return
+        try:
+            os.makedirs(path)
+        except OSError as exc:
+            if exc.errno == errno.EEXIST and os.path.isdir(path):
+                pass
+            else:
+                raise
+    
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",
