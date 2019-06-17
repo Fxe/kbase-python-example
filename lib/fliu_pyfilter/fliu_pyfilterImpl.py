@@ -283,7 +283,6 @@ class fliu_pyfilter:
         for f in os.listdir('/kb/module/data'):
             if f.endswith('.html'):
                 print(f)
-                #copyfile(output_directory + '/' + f, '/kb/module/data/' + f)
                 copyfile('/kb/module/data/' + f, output_directory + '/' + f)
             
 
@@ -298,8 +297,8 @@ class fliu_pyfilter:
         html_report = []
         html_report.append({
             'shock_id': shock_id,
-            'name': 'name',
-            'label': 'label',
+            'name': 'index.html',
+            'label': 'viewer',
             'description': 'description'
         })
         
