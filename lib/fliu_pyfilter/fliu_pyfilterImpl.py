@@ -4,8 +4,10 @@ import logging
 import os
 import urllib.request
 import json
+import uuid
 
-import wut
+from fliu_pyfilter.wut import mkdir_p
+from shutil import copyfile
 import cobrakbase
 
 from kbase_python import fetch_models_from_url
@@ -274,31 +276,52 @@ class fliu_pyfilter:
         ws = params['workspace_name']
         print(params)
         
-        output_directory = os.path.join(self.scratch, str(uuid.uuid4()))
-        print(output_directory)
+        output_directory = os.path.join(self.shared_folder, str(uuid.uuid4()))
+        mkdir_p(output_directory)
         
-        wut.mkdir_p(output_directory)
+        print('output_directory', output_directory, os.listdir(output_directory))
+        for f in os.listdir('/kb/module/data'):
+            if f.endswith('.html'):
+                print(f)
+                #copyfile(output_directory + '/' + f, '/kb/module/data/' + f)
+                copyfile('/kb/module/data/' + f, output_directory + '/' + f)
+            
+
         
         print(output_directory)
         
         shock_id = self.dfu.file_to_shock({
             'file_path': output_directory,
-            'pack': 'zip'})['shock_id']
+            'pack': 'zip'
+        })['shock_id']
+        
+        html_report = []
+        html_report.append({
+            'shock_id': shock_id,
+            'name': 'name',
+            'label': 'label',
+            'description': 'description'
+        })
         
         report = KBaseReport(self.callback_url)
         
         report_params = {
             'message': 'message_in_app ' + output_directory,
-            'warnings': 'warnings_in_app',
+            'warnings': ['warnings_in_app'],
             'workspace_name': ws,
-            'objects_created': objects_created_in_app,
-            'html_links': html_files_in_app,
+            'objects_created': [],
+            'html_links': html_report,
             'direct_html_link_index': 0,
             'html_window_height': 333,
         }
         
         print(report_params)
         report_info = report.create_extended_report(report_params)
+        
+        output = {
+            'report_name': report_info['name'], 
+            'report_ref': report_info['ref']
+        }
         
         #END escher_fbamodel
 

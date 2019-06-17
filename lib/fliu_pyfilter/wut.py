@@ -1,4 +1,6 @@
-def mkdir_p(self, path):
+import os
+
+def mkdir_p(path):
     if not path:
         return
     try:

@@ -11,6 +11,10 @@ MAINTAINER KBase Developer
 
 # -----------------------------------------
 
+RUN pip install --upgrade pip
+RUN pip install cobra
+RUN pip install cobrakbase
+
 COPY ./ /kb/module
 RUN mkdir -p /kb/module/work
 RUN chmod -R a+rw /kb/module

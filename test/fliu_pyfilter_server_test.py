@@ -63,5 +63,14 @@ class fliu_pyfilterTest(unittest.TestCase):
         #
         # Check returned data with
         # self.assertEqual(ret[...], ...) or other unittest methods
-        ret = self.serviceImpl.run_fliu_pyfilter(self.ctx, {'workspace_name': self.wsName,
-                                                             'parameter_1': 'Hello World!'})
+        params = {
+            'workspace_name': self.wsName,
+            'parameter_1': 'Hello World!'
+        }
+        #ret = self.serviceImpl.run_fliu_pyfilter(self.ctx, params)
+        
+    def test_escher(self):
+        params = {
+            'workspace_name' : 'filipeliu:narrative_1556512034170'
+        }
+        ret = self.serviceImpl.escher_fbamodel(self.ctx, params)
