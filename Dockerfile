@@ -14,6 +14,8 @@ MAINTAINER KBase Developer
 RUN pip install --upgrade pip
 RUN pip install cobra
 RUN pip install cobrakbase
+RUN pip install escher
+RUN pip install networkx
 
 COPY ./ /kb/module
 RUN mkdir -p /kb/module/work

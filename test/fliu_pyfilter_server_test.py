@@ -70,7 +70,11 @@ class fliu_pyfilterTest(unittest.TestCase):
         #ret = self.serviceImpl.run_fliu_pyfilter(self.ctx, params)
         
     def test_escher(self):
+        
         params = {
-            'workspace_name' : 'filipeliu:narrative_1556512034170'
+            'genome_id': 'GCF_000002525.2.RAST', 
+            'fba_id': 'GCF_000002525.2.RAST.GMM.fba', 
+            'model_id': 'GCF_000002525.2.RAST.GMM.mdl', 
+            'workspace_name': 'filipeliu:narrative_1556512034170'
         }
         ret = self.serviceImpl.escher_fbamodel(self.ctx, params)

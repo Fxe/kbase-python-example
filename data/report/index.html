@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>ModelSEED Escher</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="css/scroller.bootstrap4.min.css">
+    <style>
+      .map-table {
+        margin: 10px 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="map-table">
+            <table id="table-escher-maps" class="table">
+              <thead class="thead-light">
+                  <tr>
+                    <th scope="col">map</th>
+                    <th scope="col">#reactions</th>
+                    <th scope="col">#model</th>
+                    <th scope="col">#genes</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <iframe id="escher" style="display: block; width: 100%; height: 1000px"></iframe>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="js/jquery.dataTables.min.js"></script>
+  <script src="js/dataTables.bootstrap4.min.js"></script>
+  <script src="js/dataTables.scroller.min.js"></script>
+  <script>
+    function render_escher_map(src) {
+      document.getElementById('escher').src = src
+      window.onbeforeunload = null
+    }
+    var table;
+    $(function(){
+      table = $("#table-escher-maps").DataTable({
+        scrollY: 200,
+        deferRender: true,
+        scroller: true
+      });
+      $.getJSON("catalog.json", function(catalog) {
+        rows = []
+        for (map_id in catalog) {
+          map_data = catalog[map_id]
+          button_html = '<a href="#" onclick="render_escher_map(\'' + map_data["src"] +'\');"><span class="oi oi-eye"></span></a>'
+          row_data = [
+            map_id, 
+            map_data["reactions"], 
+            map_data["model_reactions"], 
+            map_data["model_genes"], 
+            button_html
+          ];
+          rows.push(row_data)
+        }
+        
+        table.rows.add(rows).draw();
+        console.log(catalog)
+      })
+      
+      console.log('yay!!!')
+      window.onbeforeunload = null;
+    })
+  </script>
+</html>
+
