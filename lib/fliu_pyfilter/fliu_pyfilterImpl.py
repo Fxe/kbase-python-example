@@ -408,7 +408,7 @@ class fliu_pyfilter:
             'objects_created': [],
             'html_links': html_report,
             'direct_html_link_index': 0,
-            'html_window_height': 600,
+            'html_window_height': 800,
         }
         
         print(report_params)
