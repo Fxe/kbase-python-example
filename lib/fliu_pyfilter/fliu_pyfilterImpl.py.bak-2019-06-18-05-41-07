@@ -40,7 +40,7 @@ class fliu_pyfilter:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "git@github.com:Fxe/kbase_python_module.git"
-    GIT_COMMIT_HASH = "73d192483ea4321c2850f89db565d90b8833ee3f"
+    GIT_COMMIT_HASH = "7f8e76300be366d07e826e98440f4cab88330a29"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
