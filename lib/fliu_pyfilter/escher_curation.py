@@ -78,6 +78,7 @@ def get_cpd_seed_ids(model_metabolite):
     if 'annotation' in model_metabolite:
         if 'seed.compound' in model_metabolite['annotation']:
             seed_ids |= set(model_metabolite['annotation']['seed.compound'])
+    return seed_ids
 
 class EscherModel:
     
