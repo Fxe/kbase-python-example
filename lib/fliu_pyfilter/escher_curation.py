@@ -50,6 +50,9 @@ def get_seed_ids(rxn):
         if 'seed.obsolete' in rxn['dblinks']:
             for rxn_id in rxn['dblinks']['seed.obsolete']:
                 seed_ids.add(rxn_id)
+    if 'annotation' in rxn:
+        if 'seed.reaction' in rxn['annotation']:
+            seed_ids |= set(rxn['annotation']['seed.reaction'])
     return seed_ids
 
 def get_cpd_seed_ids(model_metabolite):
@@ -71,7 +74,10 @@ def get_cpd_seed_ids(model_metabolite):
                         seed_ids.add(seed_id)
                 else:
                     print('?', value)
-    return seed_ids
+                    
+    if 'annotation' in model_metabolite:
+        if 'seed.compound' in model_metabolite['annotation']:
+            seed_ids |= set(model_metabolite['annotation']['seed.compound'])
 
 class EscherModel:
     
