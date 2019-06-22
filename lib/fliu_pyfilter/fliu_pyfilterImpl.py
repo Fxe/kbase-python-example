@@ -7,7 +7,7 @@ import json
 import uuid
 
 from fliu_pyfilter.wut import mkdir_p
-from fliu_pyfilter.escher_curation import EscherModel, EscherMap
+from fliu_pyfilter.escher_curation import EscherModel, EscherMap, KBaseEscherViewer
 from fliu_pyfilter.bios_utils import read_json, write_json
 import shutil
 import escher
@@ -40,7 +40,7 @@ class fliu_pyfilter:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "git@github.com:Fxe/kbase_python_module.git"
-    GIT_COMMIT_HASH = "73d192483ea4321c2850f89db565d90b8833ee3f"
+    GIT_COMMIT_HASH = "cee1e2e9ad3cd2e3e8be1ef1211ec68536dd084e"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -281,99 +281,27 @@ class fliu_pyfilter:
         kbase = cobrakbase.KBaseAPI(ctx['token'], dev=True)
         kmodel = kbase.get_object(params['model_id'], ws)
         fbamodel = cobrakbase.core.model.KBaseFBAModel(kmodel)
-        flux_data = None
+        fba = None
+        
         if 'fba_id' in params:
             kfba = kbase.get_object(params['fba_id'], ws)
             fba = cobrakbase.core.model.KBaseFBASolution(kfba)
-            flux_data = {}
-            for rxn_var in fba.data['FBAReactionVariables']:
-                flux = rxn_var['value']
-                rxn_id = rxn_var['modelreaction_ref'].split('/')[-1]
-                flux_data[rxn_id] = flux
-            for rxn_var in fba.data['FBABiomassVariables']:
-                flux = rxn_var['value']
-                rxn_id = rxn_var['biomass_ref'].split('/')[-1]
-                flux_data[rxn_id + '_biomass'] = flux
-            for rxn_var in fba.data['FBACompoundVariables']:
-                flux = rxn_var['value']
-                cpd_id = rxn_var['modelcompound_ref'].split('/')[-1]
-                flux_data['EX_' + cpd_id] = -1 * flux
-        #kmedia = kbase.get_object('Carbon-D-Glucose', ws)
-        
-        def fetch_metabolites_and_reactions(fbamodel, compartment_match = 'c0', compartment_match2 = 'c'):
-            rxn_map_to_model = {}
-            compartment_match2 = 'c'
-
-            for modelreaction in fbamodel.reactions:
-                reaction_ref = modelreaction.data['reaction_ref'].split('/')[-1]
-                seed_id, compartment = reaction_ref.split('_')
-                if compartment == compartment_match2:
-                    rxn_map_to_model[seed_id] = modelreaction.id
-                #print(modelreaction.id, seed_id, compartment)
-
-            compartment_match = 'c0'
-            cpd_map_to_model = {}
-            for metabolite in fbamodel.metabolites:
-                seed_id = metabolite.data['compound_ref'].split('/')[-1]
-                compartment = metabolite.data['modelcompartment_ref'].split('/')[-1]
-                if compartment == compartment_match:
-                    cpd_map_to_model[seed_id] = metabolite.id
-
-            return cpd_map_to_model, rxn_map_to_model
-
-        def build_escher_map(escher_map, model_json):
-            map_json_str = json.dumps(escher_map.escher_map)
-            builder = escher.Builder(map_json=map_json_str, model_json=model_json, reaction_data=flux_data)
-            builder.set_highlight_missing(True)
-            builder.set_enable_tooltips(True)
-            builder.set_show_gene_reaction_rules(True)
-            builder.set_and_method_in_gene_reaction_rule(True)
-            return builder
-        
-        cpd_map_to_model, rxn_map_to_model = fetch_metabolites_and_reactions(fbamodel)
-        print('cpd_map_to_model', len(cpd_map_to_model), 'rxn_map_to_model', len(rxn_map_to_model))
-        
-        ESCHER_HOME = '/kb/module/data/escher'
-        escher_model_data = read_json(ESCHER_HOME + '/models/' + 'BIOS' + '/' + 'bios7.json')
-        escher_model = EscherModel(escher_model_data)
-        cpd_remap, rxn_remap = escher_model.map_escher_model_data(cpd_map_to_model, rxn_map_to_model)
-        
-        map_list = [{'organism': 'BIOS', 'map_name': 'bios7.proteins'},
- {'organism': 'BIOS', 'map_name': 'bios7.Quinones'},
- {'organism': 'BIOS', 'map_name': 'bios7.fa'},
- {'organism': 'BIOS', 'map_name': 'bios7.AA'},
- {'organism': 'BIOS', 'map_name': 'bios7.LipidIV'},
- {'organism': 'BIOS', 'map_name': 'bios7.thf'},
- {'organism': 'BIOS', 'map_name': 'bios7.Central'},
- {'organism': 'BIOS', 'map_name': 'bios7.mycolate'},
- {'organism': 'BIOS', 'map_name': 'bios7.Riboflavin'},
- {'organism': 'BIOS', 'map_name': 'bios7.sugars'},
- {'organism': 'BIOS', 'map_name': 'bios7.f430'},
- {'organism': 'BIOS', 'map_name': 'bios7.Thiamine'},
- {'organism': 'BIOS', 'map_name': 'bios7.Nucleotides'},
- {'organism': 'BIOS', 'map_name': 'bios7.peptidoglycan'}]
-        
-        media_const = {}
-        cobra_model = cobrakbase.convert_kmodel(kmodel, media_const)
-        model_json = cobra.io.to_json(cobra_model)
         
         catalog = {}
         
-        for o in map_list:
-            map_id = o['map_name']
-            escher_map_data = read_json(ESCHER_HOME + '/maps/' + 'BIOS' + '/' + map_id + '.json')
-            escher_map = EscherMap(escher_map_data)
-            escher_map.swap_ids(cpd_remap, rxn_remap)
-            builder = build_escher_map(escher_map, model_json)
-            builder.save_html('/kb/module/data/report/maps/' + map_id, overwrite=True)
-            catalog[map_id]= {
-                "reactions" : 10,
-                "model_flux" : 20,
-                "model_reactions" : 30,
-                "model_genes" : 40,
-                "src" : "maps/" + map_id + ".html"
-            }
+        kbase_escher = KBaseEscherViewer(fbamodel, 'BIOS', 'bios7.json', fba, ESCHER_HOME='/root/.cache/escher/1-0-0/5/')
+        kbase_escher.load_model()
+        kbase_escher.generate_maps('c')
+        catalog_bios = kbase_escher.save_maps('/kb/module/data/report/maps/')
         
+        kbase_escher = KBaseEscherViewer(fbamodel, 'ModelSEED', 'ModelSEED.json', fba, ESCHER_HOME='/root/.cache/escher/1-0-0/5/')
+        kbase_escher.load_model()
+        kbase_escher.generate_maps('c')
+        catalog_seed = kbase_escher.save_maps('/kb/module/data/report/maps/')
+        
+        catalog.update(catalog_bios)
+        catalog.update(catalog_seed)
+        print('catalog', catalog)
         write_json(catalog, '/kb/module/data/report/catalog.json')
         
         print(params)
